@@ -65,8 +65,8 @@ const User = sequelize.define('User', {
 User.associate = function(models){
      User.hasMany(models.Review, { });
      User.hasMany(models.Product);
-     User.belongsToMany(models.Product, {through: 'listFavorite', as: 'listFavorited', foreignKey: 'userId'});
-
+     User.belongsToMany(models.Product, {through: 'favoriteList', as: 'inList', foreignKey: 'userId'});
+     User.belongsToMany(models.Product, {through: 'cart', as: 'inCart', foreignKey: 'userId'});
 }
 
 module.exports = User;
