@@ -1,7 +1,4 @@
-const { response } = require('express');
-const { Op } = require('sequelize');
 const User = require('../models/User');
-const Review = require('../models/Review');
 const Product = require('../models/Product');
 
 //Mostra todos os produtos do site
@@ -15,13 +12,37 @@ const index = async(req, res) => {
 };
 
 
+//Mostra produto específico
+const show = async(req,res) => {
+    const {id} = req.params;
+    try {
+        const product = await Product.findByPk(id);
+        return res.status(200).json({user});
+    } catch (error) {
+        return res.status(500).json({err});
+    }
+};
+
+
+//Mostra produtos de dadas categorias
+const category = async(req,res) => {
+    const {id} = req.params;
+    try {
+        const products = await Product.findAll({where: {category: req.body.category}});
+    } catch (error) {
+        return res.status(500).json({err});
+    }
+};
+
 
 //Postar produto
 const create = async(req,res) => {
-    const {id} =  req.params;
+    const token = Auth.getToken(req);
+	const payload = Auth.decodeJwt(token);
+	const user = await User.findByPk(payload.sub);
     try {
         const product = await Product.create(req.body);
-        return res.status(200).json({message: "Produto postado com sucesso!", product: product});
+        await user.addProduct(product);
         product.reload();
     } catch (error) {
         res.status(500).json({error: err});
@@ -31,12 +52,14 @@ const create = async(req,res) => {
 
 //Editar postagem de produto
 const update = async(req,res) => {
+    const token = Auth.getToken(req);
+	const payload = Auth.decodeJwt(token);
+	const user = await User.findByPk(payload.sub);
     try {
-        const {id} = req.params;
         const [updated] = await Product.update(req.body, {where: {id: id}});
         if (updated) {
             const product = await Product.findByPk(id);
-            return res.status(200).send(user);
+            return res.status(200).send(product);
         }
         throw new Error();
     } catch (error) {
@@ -44,7 +67,8 @@ const update = async(req,res) => {
     }
 };
 
-//Deletar postagbem de produto
+
+//Deletar postagem do próprio produto
 const destroy = async(req,res) => {
     const {id} = req.params;
     try {
@@ -58,25 +82,72 @@ const destroy = async(req,res) => {
     }
 };
 
+
 //Adicionar produto ao carrinho
 const addToCart = async(req,res) => {
     const token = Auth.getToken(req);
-    const user = Auth.user(token);
+	const payload = Auth.decodeJwt(token);
+	const user = await User.findByPk(payload.sub);
     try {
-        const loggedUser = await User.findByPk(req.params.id);
-        const inCart = 
+        const productInCart = await user.setInCart(product);
+        if(productInCart) {
+            return res.status(200).json("Produto adicionado no carrinho.");
+        }
+        throw new Error ();
     } catch (error) {
-        
+        return res.status(500).json("O produto não foi encontrado.");
     }
-}
+};
 
 
 //Remover produto do carrinho
+const removeFromCart = async(req,res) => {
+    const token = Auth.getToken(req);
+    const payload = Auth.decodeJwt(token);
+	const user = await User.findByPk(payload.sub);
+    try {
+        const removed = await user.removeInCart(product);
+        if(removed) {
+            return res.status(200).json("Produto removido do carrinho.");
+        }
+        throw new Error ();
+    } catch (error) {
+        return res.status(500).json("O produto não foi encontrado.");
+    }
+};
 
 
 //Favoritar produto
+const addToCart = async(req,res) => {
+    const token = Auth.getToken(req);
+	const payload = Auth.decodeJwt(token);
+	const user = await User.findByPk(payload.sub);
+    try {
+        const productInList = await user.setInList(product);
+        if(productInList) {
+            return res.status(200).json("Produto adicionado aos favoritos.");
+        }
+        throw new Error ();
+    } catch (error) {
+        return res.status(500).json("O produto não foi encontrado.");
+    }
+};
+
 
 
 //Desfavoritar produto
-
+const removeFromList = async(req,res) => {
+    const token = Auth.getToken(req);
+    const payload = Auth.decodeJwt(token);
+	const user = await User.findByPk(payload.sub);
+    try {
+        const removed = await user.removeInList(product);
+        if(removed) {
+            return res.status(200).json("Produto removido da lista de favoritos.");
+        }
+        throw new Error ();
+    } catch (error) {
+        return res.status(500).json("O produto não foi encontrado.");
+    }
+};
 
