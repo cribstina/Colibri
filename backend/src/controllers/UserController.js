@@ -5,7 +5,7 @@ const Auth = require("../config/auth");
 const { Op } = require('sequelize');
 
 // Criação de usuário e autenticação
-const create = async(req,res) => {
+const createAccount = async(req,res) => {
     try {
 		const { password } = req.body;
 		const hashAndSalt = Auth.generatePassword(password);
@@ -30,7 +30,7 @@ const create = async(req,res) => {
 	}
 };
 
-// Mostra todos os usuários do site
+// Mostra todos os usuários
 const index = async(req,res) => {
     try {
         const users = await User.findAll ({
@@ -54,13 +54,31 @@ const show = async(req,res) => {
 
 };
 
-// Edita perfil do usuário
-const update = async(req,res) => {
-    const {id} = req.params;
+// // Deleta um perfil de usuário
+// const destroy = async(req,res) => {
+//     const {id} = req.params;
+//     try {
+//         const deleted = await User.destroy({where: {id: id}});
+//         if (deleted) {
+//             return res.status(200).json("Usuário deletado com sucesso.");
+//         } 
+//         throw new Error ();
+//     }catch(err){
+//         return res.status(500).json("Usuário não encontrado.");
+//     }
+
+// };
+
+// Usuário edita seu próprio perfil
+const updateProfile = async(req,res) => {
+    const {token} = req.params;
     try {
-        const [update] = await User.update(req.body, {where: {id: id}});
-        if (update) {
-            const user = await User.findByPk(id);
+        const token = User.getToken(req);
+        const payload = User.decodeJwt(token);
+        const user = await Auth.findByPk(payload.sub);
+        const [update] = await User.updateProfile(req.body, {where: {id: sub}});
+        if (updateProfile) {
+            const user = await User.findByPk(token);
             return res.status(200).send(user);
         }
         throw new Error();
@@ -70,25 +88,13 @@ const update = async(req,res) => {
 
 };
 
-// Deleta um perfil de usuário
-const destroy = async(req,res) => {
-    const {id} = req.params;
-    try {
-        const deleted = await User.destroy({where: {id: id}});
-        if (deleted) {
-            return res.status(200).json("Usuário deletado com sucesso.");
-        } 
-        throw new Error ();
-    }catch(err){
-        return res.status(500).json("Usuário não encontrado.");
-    }
-
-};
-
-// Mostra a lista com os produtos favoritados
+// Usuário vê a própria lista de favoritos
 const getUserListFav = async(req,res) => {
+    const{token} = req.params;
+    const payload = User.decodeJwt(token);
+    const product = await Auth.findByPk(payload.sub);
     try{
-        const{id} = req.params;
+        await product.setUser(user);
         const user = await User.findByPk(id, {
            include: [{
                model: User
@@ -102,10 +108,13 @@ const getUserListFav = async(req,res) => {
 
 };
 
-// Adição de um comentário a um produto pelo usuário
+// Usuário faz um comentário sobre um produto
 const addCommentProduct = async(req,res) => {
+    const token = Auth.getToken(req);
+    const payload = Auth.decodeJwt(token);
+    const user = await User.findByPk(payload.sub);
     try{
-        const comment = await User.findByPk(id);
+        const comment = await User.findByPk(sub);
         const review = await Review.findByPk(req.body.reviewId);
         await user.setReview(review);
         return res.status(200).json(comment);
@@ -115,11 +124,14 @@ const addCommentProduct = async(req,res) => {
 
 };
 
+// Usuário apaga o próprio comentário
 const commentDelet = async(req,res) => {
-    const {id} = req.params;
+    const {token} = req.params;
+    const payload = Auth.decodeJwt(token);
+    const user = await User.findByPk(payload.sub);
     try {
-        const commentDeleted = await User.commentDestroy({where: {id: id}});
-        if (commmentDeleted) {
+        const commentDeleted = await User.commentDelet({where: {id: sub}});
+        if (commentDeleted) {
             return res.status(200).json("Comentário deletado com sucesso.");
         } 
         throw new Error ();
@@ -132,9 +144,9 @@ const commentDelet = async(req,res) => {
 module.exports = {
     index,
     show,
-    create,
-    update,
-    destroy,
+    createAccount,
+    updateProfile,
+    //destroy,
     getUserListFav,
     addCommentProduct,
     commentDelet
