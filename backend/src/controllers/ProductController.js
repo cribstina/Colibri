@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Product = require('../models/Product');
+const Auth = require("../config/auth");
 
 //Mostra todos os produtos do site
 const index = async(req, res) => {
@@ -17,7 +18,7 @@ const show = async(req,res) => {
     const {id} = req.params;
     try {
         const product = await Product.findByPk(id);
-        return res.status(200).json({user});
+        return res.status(200).json({product});
     } catch (error) {
         return res.status(500).json({err});
     }
@@ -25,10 +26,11 @@ const show = async(req,res) => {
 
 
 //Mostra produtos de dadas categorias
-const category = async(req,res) => {
+const byCategory = async(req,res) => {
     const {id} = req.params;
     try {
         const products = await Product.findAll({where: {category: req.body.category}});
+        products.reload()
     } catch (error) {
         return res.status(500).json({err});
     }
@@ -118,7 +120,7 @@ const removeFromCart = async(req,res) => {
 
 
 //Favoritar produto
-const addToCart = async(req,res) => {
+const addToList = async(req,res) => {
     const token = Auth.getToken(req);
 	const payload = Auth.decodeJwt(token);
 	const user = await User.findByPk(payload.sub);
@@ -132,7 +134,6 @@ const addToCart = async(req,res) => {
         return res.status(500).json("O produto não foi encontrado.");
     }
 };
-
 
 
 //Desfavoritar produto
@@ -151,3 +152,17 @@ const removeFromList = async(req,res) => {
     }
 };
 
+
+
+module.exports = {
+    index,
+    show,
+    byCategory,
+    create,
+    update,
+    destroy,
+    addToCart,
+    removeFromCart,
+    addToList,
+    removeFromList
+}

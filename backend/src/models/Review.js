@@ -1,5 +1,5 @@
 const DataTypes = require("sequelize");
-const sequelize = requeite("../config/sequelize");
+const sequelize = require("../config/sequelize");
 
 const Review = sequelize.define('Review', {
     comment: {
@@ -13,7 +13,7 @@ const Review = sequelize.define('Review', {
     },
 
     media: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
     }
 });
 
