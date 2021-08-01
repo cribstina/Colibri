@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const Product = require('../models/Product');
+const Comment = require('../models/Comment');
 const Auth = require("../config/auth");
 const UserController = require("./UserController");
 
