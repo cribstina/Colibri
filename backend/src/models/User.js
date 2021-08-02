@@ -26,19 +26,19 @@ const User = sequelize.define('User', {
 
     CPF: {
         type: DataTypes.STRING,
-        allowNull: true
+        //allowNull: false
 
     },
 
     gender: {
          type: DataTypes.STRING,
-         allowNull: false
+         //allowNull: false
 
     },
 
     birthdate: {
         type: DataTypes.DATEONLY,
-        allowNull: false
+        //allowNull: false
 
     },
 
@@ -54,7 +54,7 @@ const User = sequelize.define('User', {
     
     },
 
-    role: {
+    type_user: {
         type: DataTypes.BOOLEAN,
         allowNull: true
 
@@ -63,10 +63,11 @@ const User = sequelize.define('User', {
 });
 
 User.associate = function(models){
-    User.hasMany(models.Review, { });
-    User.hasMany(models.Product);
-    User.belongsToMany(models.Product, {through: 'favoriteList', as: 'inList', foreignKey: 'userId'});
-    User.belongsToMany(models.Product, {through: 'cart', as: 'inCart', foreignKey: 'userId'});
+     User.hasMany(models.Product, { });
+     User.hasMany(models.Comment, { });
+     User.belongsToMany(models.Product, {through: 'favoriteList', as: 'inList', foreignKey: 'userId'});
+     User.belongsToMany(models.Product, {through: 'cart', as: 'inCart', foreignKey: 'userId'});
+       
 }
 
 module.exports = User;
