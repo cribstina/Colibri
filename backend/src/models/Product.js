@@ -13,7 +13,7 @@ const Product = sequelize.define('Product', {
     },
 
     weight: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
 
@@ -23,7 +23,7 @@ const Product = sequelize.define('Product', {
     },
 
     price: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     
@@ -35,9 +35,10 @@ const Product = sequelize.define('Product', {
 
 Product.associate = function(models){
     Product.belongsTo(models.User, { });
-    Product.hasMany(models.Review);
+    Product.hasMany(models.Comment, { });
     Product.belongsToMany(models.User, {through: 'favoriteList', as: 'inList', foreignKey: 'productId'});
     Product.belongsToMany(models.User, {through: 'cart', as: 'inCart', foreignKey: 'productId'});
+
 }
 
 module.exports = Product;
