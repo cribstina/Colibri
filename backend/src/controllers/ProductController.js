@@ -153,6 +153,20 @@ const removeFromList = async(req,res) => {
 };
 
 
+//Deletar postagem do próprio produto
+const adminDestroy = async(req,res) => {
+    const {id} = req.params;
+    try {
+        const deleted = await Product.destroy({where: {id: id}});
+        if(deleted) {
+            return res.status(200).json("Produto deletado com sucesso.");
+        }
+        throw new Error();
+    } catch (error) {
+        return res.status(500).json("Produto não encontrado.")
+    }
+};
+
 
 module.exports = {
     index,
@@ -164,5 +178,6 @@ module.exports = {
     addToCart,
     removeFromCart,
     addToList,
-    removeFromList
+    removeFromList,
+    adminDestroy
 }
