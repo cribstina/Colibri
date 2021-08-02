@@ -7,6 +7,10 @@ const Product = sequelize.define('Product', {
         allowNull: false
 
     },
+    category: {
+        type:DataTypes.STRING,
+        allowNull: false
+    },
 
     weight: {
         type: DataTypes.INTEGER,
@@ -15,6 +19,11 @@ const Product = sequelize.define('Product', {
 
     description: {
         type: DataTypes.TEXT,
+        allowNull: false
+    },
+
+    price: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     
