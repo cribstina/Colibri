@@ -59,11 +59,12 @@ const emailSent = async (req,res) => {
                 });
             });
             return res.status(201).json({user});
-        }catch(err){
+        } catch(err) {
             return res.status(200).json(err + "!");
         }
 
 };
+
 
 // Usuário edita seu próprio perfil
 const updateProfile = async(req,res) => {
@@ -76,11 +77,12 @@ const updateProfile = async(req,res) => {
                 return res.status(200).json("Perfil atualizado com sucesso.");
             }
             throw new Error();
-        } catch (error) {
+    } catch (err) {
             return res.status(500).json(e + "!");
         }
 
 };
+
 
 // Usuário vê a própria lista de favoritos
 const showListFavUser = async (req,res) => {
@@ -98,6 +100,7 @@ const showListFavUser = async (req,res) => {
             return res.status(500).json({err});
         }
 };
+
 // Usuário adiciona uma foto no perfil
 const addPictureProfile = async (req,res) => {
     try {
@@ -111,14 +114,12 @@ const addPictureProfile = async (req,res) => {
                 }
                 const [updated] = await User.update(atributes, {where: {id: payload.sub}});
                 console.log("path");
-
             }
             return res.status(200).json("Foto adicionada com sucesso!");
 
-        }catch(e) {
-            return res.status(500).json(e + "!");
+        }catch(err) {
+            return res.status(500).json(err + "!");
         }
-
 };
 
 // Usuário remove sua foto de perfil
@@ -134,7 +135,6 @@ const removePictureProfile = async(req, res) => {
 	    } catch (e) {
 		    return res.status(500).json(e + "!");
 	    }
-
 };
 
 
@@ -146,8 +146,8 @@ const index = async (req, res) => {
         } catch (err) {
             return res.status(500).json({users});
         }
-
 };
+
 
 // Mostra um usuário específico
 const show = async (req, res) => {
@@ -161,8 +161,22 @@ const show = async (req, res) => {
 
 };
 
-// Usuário deleta seu próprio perfil
-const deletProfile = async (req, res) => {
+// Adição de um comentário a um produto pelo usuário
+const addCommentProduct = async(req,res) => {
+    try{
+        const comment = await User.findByPk(id);
+        const review = await Review.findByPk(req.body.reviewId);
+        await user.setReview(review);
+        return res.status(200).json(comment);
+    } catch(err) {
+        return res.status(500).json({err});
+    }
+
+};
+
+// Deleta um perfil de usuário
+const destroy = async (req, res) => {
+    const {id} = req.params;
     try {
             const token = Auth.getToken(req);
             const payload = Auth.decodeJwt(token);
@@ -194,6 +208,8 @@ const update = async(req,res) => {
 
 };
 
+
+
 module.exports = {
     createAccount,
     emailSent,
@@ -203,7 +219,8 @@ module.exports = {
     removePictureProfile,
     index,
     show,
-    deletProfile,
-    update
+    destroy,
+    update,
+    addCommentProduct
     
-};
+}

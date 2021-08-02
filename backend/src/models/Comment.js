@@ -5,7 +5,6 @@ const Comment = sequelize.define('Comment', {
     description: {
         type: DataTypes.STRING,
         allowNull: false
-
     }
 
 }, {
@@ -15,9 +14,8 @@ const Comment = sequelize.define('Comment', {
 });
 
 Comment.associate = function(models){
+    Comment.belongsTo(models.User, { });
     Comment.belongsTo(models.Product, { });
-    Comment.belongsTo(models.Comment, { });
-
 }
 
 module.exports = Comment;

@@ -23,7 +23,7 @@ const createComment = async(req,res) => {
 };
 
 // Usuário deleta o próprio comentário
-const deletComment = async(req,res) => {
+const deleteComment = async(req,res) => {
     const {id} = req.params; 
     try {
             const token = Auth.getToken(req);
@@ -99,12 +99,27 @@ const update = async(req,res) => {
 
 }
 
+//ADMIN deleta comment do usuário (validação na rota)
+const adminDeleteComment = async(req,res) => {
+    const {id} = req.params;
+    try {
+        const deleted = await Comment.destroy({where: {id: id}});
+        if (deleted) {
+            return res.status(200).json("Comentário deletado com sucesso.")
+        }
+        throw new Error();
+    } catch (error) {
+        return res.status(500).json("Comentário não encontrado.")
+    }
+}
+
 
 module.exports = {
     createComment,
-    deletComment,
+    deleteComment,
     index, 
     show,
-    adminCommentDestroy,
-    update
+    update,
+    adminDeleteComment,
+    adminCommentDestroy
 };
