@@ -67,12 +67,12 @@ const emailSent = async (req,res) => {
 
 // Usuário edita seu próprio perfil
 const updateProfile = async(req,res) => {
-    const token = Auth.getToken(req);
-    const payload = Auth.decodeJwt(token);
-    try {
-            const [updated] = await User.update({where: {id: payload.sub}});
+    try {   
+            const token = Auth.getToken(req);
+            const payload = Auth.decodeJwt(token);
+            const user = await User.findByPk(payload.sub);
+            const [updated] = await User.update(req.body, {where: {id: payload.sub}});
             if (updated) {
-                await User.findByPk(payload.sub);
                 return res.status(200).json("Perfil atualizado com sucesso.");
             }
             throw new Error();
@@ -83,34 +83,30 @@ const updateProfile = async(req,res) => {
 };
 
 // Usuário vê a própria lista de favoritos
-const showListFavUser = async (req, res) => {
-    const token = Auth.decodeJwt(req);
-    const payload = Auth.decodeJwt(token);
-    const product = await User.findByPk(payload.sub);
+const showListFavUser = async (req,res) => {
     try {
-            await product.setUser(user);
-            const user = await User.findByPk(id, {
-                include: [{
-                    model: User
-                }]
-
+            const token = Auth.getToken(req);
+            const payload = Auth.decodeJwt(token);
+            const user = await User.findByPk(payload.sub, {
+                include: [
+                     'inList',
+                     'inCart'
+                ]
             });
             return res.status(200).json(user);
-        } catch (err) {
+        }catch(err){
             return res.status(500).json({err});
         }
-
 };
-
-// Usuário coloca uma foto no perfil
-const addPictureProfile = async (req, res) => {
+// Usuário adiciona uma foto no perfil
+const addPictureProfile = async (req,res) => {
     try {
             const token = Auth.getToken(req);
             const payload = Auth.decodeJwt(token);
             if (req.file) {
                 const path = process.env.APP_URL + "/uploads/" + req.file.filename;
                 const atributes = {
-                    path: path
+                    profilePicture: path
 
                 }
                 const [updated] = await User.update(atributes, {where: {id: payload.sub}});
@@ -125,22 +121,23 @@ const addPictureProfile = async (req, res) => {
 
 };
 
-// Usuário remore sua foto de perfil
+// Usuário remove sua foto de perfil
 const removePictureProfile = async(req, res) => {
-    const {token} = Auth.getToken(req);
-    const payload = Auth.decodeJwt(token);
-	try {
-		
-		    const picture = await User.findByPk(payload.sub);
+    try {
+		    const token = Auth.getToken(req);
+            const payload = Auth.decodeJwt(token);
+		    const picture  = await User.findByPk(payload.sub);
 		    const pathDb = picture.path.split("/").slice(-1)[0];
 		    await fsPromise.unlink(path.join(__dirname, "..", "..", "uploads", pathDb));
 		    await picture.destroy();
 		    return res.status(200).json("Foto deletada com sucesso");
-	    }catch(e) {
+	    } catch (e) {
 		    return res.status(500).json(e + "!");
 	    }
 
 };
+
+
 // Mostra todos os usuários
 const index = async (req, res) => {
     try {
@@ -164,11 +161,13 @@ const show = async (req, res) => {
 
 };
 
-// Deleta um perfil de usuário
-const destroy = async (req, res) => {
-    const {id} = req.params;
+// Usuário deleta seu próprio perfil
+const deletProfile = async (req, res) => {
     try {
-            const deleted = await User.destroy({where: {id: id}});
+            const token = Auth.getToken(req);
+            const payload = Auth.decodeJwt(token);
+            const user = await User.findByPk(payload.sub);
+            const deleted = await User.destroy({where: {id: payload.sub}});
             if (deleted) {
                 return res.status(200).json("Usuário deletado com sucesso.");
             }
@@ -204,7 +203,7 @@ module.exports = {
     removePictureProfile,
     index,
     show,
-    destroy,
+    deletProfile,
     update
     
 };

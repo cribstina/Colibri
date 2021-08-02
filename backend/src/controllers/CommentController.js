@@ -4,14 +4,17 @@ const Product = require('../models/Product');
 const Auth = require('../config/auth');
 const User = require('../models/User');
 
-// Criação de um comentário por um usuário relacionado a um produto
+//Criação de um comentário por um usuário relacionado a um produto
 const createComment = async(req,res) => {
-    const token = Auth.getToken(req);
-    const payload = Auth.decodeJwt(token);
-    const user = await User.findByPk(payload.sub);
+    const {id} = req.params; 
     try{
+            const token = Auth.getToken(req);
+            const payload = Auth.decodeJwt(token);        
             const commentProduct = await Comment.create(req.body);
-            await user.addInComment(commentInProduct);
+            const user = await User.findByPk(payload.sub);
+            const product = await Product.findByPk(id);
+            await product.addComment(commentProduct);
+            await user.addComment(commentProduct);
             return res.status(200).json("Comentário adicionado com sucesso!.");
         }catch(err){
             res.status(500).json({error: err});
@@ -21,11 +24,15 @@ const createComment = async(req,res) => {
 
 // Usuário deleta o próprio comentário
 const deletComment = async(req,res) => {
-    const token = Auth.getToken(req);
-    const payload = Auth.decodeJwt(token);
-    const user = await User.findByPk(payload.sub);
+    const {id} = req.params; 
     try {
-            const deleted = await Comment.destroy({where: {id: payload.sub}});
+            const token = Auth.getToken(req);
+            const payload = Auth.decodeJwt(token);
+            const deleted = await Comment.destroy(id);
+            const user = await User.findByPk(payload.sub);
+            const product = await Product.findByPk(id);
+            await product.removeComment(deleted);
+            await user.removeComment(deleted);  
             if(deleted){
                 return res.status(200).json("Comentário deletado com sucesso.");
             }
@@ -47,9 +54,11 @@ const index = async(req,res) => {
 
 };
 
+
+
 // Mostra um comentário específico
 const show = async(req,res) => {
-    const {id} = req.params;
+    const {id} = req.params; 
     try {
             const comment = await Comment.findByPk(id);
             return res.status(200).json({comment});
@@ -60,7 +69,7 @@ const show = async(req,res) => {
 };
 
 // Deleta um perfil de usuário
-const destroy = async (req, res) => {
+const adminCommentDestroy = async (req, res) => {
     const {id} = req.params;
     try {
             const deleted = await Comment.destroy({where: {id: id}});
@@ -96,6 +105,6 @@ module.exports = {
     deletComment,
     index, 
     show,
-    destroy,
+    adminCommentDestroy,
     update
 };

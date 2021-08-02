@@ -27,14 +27,14 @@ router.use("/private", passport.authenticate('jwt', {session: false}));
 //UserController
 router.post('/users',UserController.createAccount);
 router.post('/useremail',UserController.emailSent);
-router.put('/updateprofile:id',UserController.updateProfile);
+router.put('/updateprofile',UserController.updateProfile);
 router.get('/favlist/:id',UserController.showListFavUser);
-router.post('/private/picprofile', upload.single('picpicture'),UserController.addPictureProfile);
-router.delete('/photo/:id',UserController.removePictureProfile);
+router.post('/private/picprofile/:id', upload.single('picpicture'),UserController.addPictureProfile);
+router.delete('/userphoto/:id',UserController.removePictureProfile);
 //
 router.get('/users',UserController.index);
-router.get('/users/:id',UserController.show);
-router.delete('/user/:id',UserController.destroy);
+router.get('/user/:id',UserController.show);
+router.delete('/user/:id',UserController.deletProfile);
 router.put('/user/:id',UserController.update);
 
 //AuthController
@@ -42,12 +42,14 @@ router.get('/private/getDetails',AuthController.getDetails);
 router.post('/login',AuthController.login);
 
 //CommentController
+// Usuário
 router.post('/addcomment/:id',CommentController.createComment);
 router.delete('/deletcomment/:id',CommentController.deletComment);
 //
 router.get('/comments',CommentController.index);
 router.get('/comment/:id',CommentController.show);
-router.delete('/comment/:id',CommentController.destroy);
 router.put('/comment/:id',CommentController.update);
+//ADMIN
+router.delete('/comment/:id',CommentController.adminCommentDestroy);
 
 module.exports = router;
