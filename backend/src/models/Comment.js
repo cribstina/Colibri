@@ -5,13 +5,11 @@ const Comment = sequelize.define('Comment', {
     description: {
         type: DataTypes.STRING,
         allowNull: false
-
     },
 
     date: {
         type: DataTypes.DATEONLY,
         allowNull: false
-
     }
 
 }, {
@@ -21,9 +19,8 @@ const Comment = sequelize.define('Comment', {
 });
 
 Comment.associate = function(models){
-    Comment.belongsToMany(models.User, {through: 'commentUser', as: 'InComment', foreignKey: 'userId'});
-    Comment.belongsToMany(models.Product, {through: 'productUser', as: 'InProduct', foreignKey: 'productId'});
-
+    Comment.belongsTo(models.User, { });
+    Comment.belongsTo(models.Product, { });
 }
 
 module.exports = Comment;

@@ -2,6 +2,7 @@ const { Router } = require('express');
 const UserController = require('../controllers/UserController');
 const AuthController = require('../controllers/AuthController');
 const CommentController = require('../controllers/CommentController');
+const adminMiddleware = require('../middlewares/admin');
 const path = require('path');
 const multer = require('multer');
 const storage = require("../config/files");
@@ -43,11 +44,16 @@ router.post('/login',AuthController.login);
 
 //CommentController
 router.post('/addcomment/:id',CommentController.createComment);
-router.delete('/deletcomment/:id',CommentController.deletComment);
+router.delete('/deletcomment/:id',CommentController.deleteComment);
 //
 router.get('/comments',CommentController.index);
 router.get('/comment/:id',CommentController.show);
 router.delete('/comment/:id',CommentController.destroy);
 router.put('/comment/:id',CommentController.update);
+
+//admin
+router.delete('/private/comment/:id', adminMiddleware, CommentController.adminDeleteComment);
+
+
 
 module.exports = router;

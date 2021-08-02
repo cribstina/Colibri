@@ -59,11 +59,12 @@ const emailSent = async (req,res) => {
                 });
             });
             return res.status(201).json({user});
-        }catch(err){
+        } catch(err) {
             return res.status(200).json(err + "!");
         }
 
 };
+
 
 // Usuário edita seu próprio perfil
 const updateProfile = async(req,res) => {
@@ -76,11 +77,12 @@ const updateProfile = async(req,res) => {
                 return res.status(200).json("Perfil atualizado com sucesso.");
             }
             throw new Error();
-        } catch (error) {
+    } catch (err) {
             return res.status(500).json(e + "!");
         }
 
 };
+
 
 // Usuário vê a própria lista de favoritos
 const showListFavUser = async (req, res) => {
@@ -102,6 +104,7 @@ const showListFavUser = async (req, res) => {
 
 };
 
+
 // Usuário coloca uma foto no perfil
 const addPictureProfile = async (req, res) => {
     try {
@@ -111,21 +114,19 @@ const addPictureProfile = async (req, res) => {
                 const path = process.env.APP_URL + "/uploads/" + req.file.filename;
                 const atributes = {
                     path: path
-
                 }
                 const [updated] = await User.update(atributes, {where: {id: payload.sub}});
                 console.log("path");
-
             }
             return res.status(200).json("Foto adicionada com sucesso!");
 
-        }catch(e) {
-            return res.status(500).json(e + "!");
+        }catch(err) {
+            return res.status(500).json(err + "!");
         }
-
 };
 
-// Usuário remore sua foto de perfil
+
+// Usuário remove sua foto de perfil
 const removePictureProfile = async(req, res) => {
     const {token} = Auth.getToken(req);
     const payload = Auth.decodeJwt(token);
@@ -136,11 +137,12 @@ const removePictureProfile = async(req, res) => {
 		    await fsPromise.unlink(path.join(__dirname, "..", "..", "uploads", pathDb));
 		    await picture.destroy();
 		    return res.status(200).json("Foto deletada com sucesso");
-	    }catch(e) {
-		    return res.status(500).json(e + "!");
+	    }catch(err) {
+		    return res.status(500).json(err + "!");
 	    }
-
 };
+
+
 // Mostra todos os usuários
 const index = async (req, res) => {
     try {
@@ -149,8 +151,8 @@ const index = async (req, res) => {
         } catch (err) {
             return res.status(500).json({users});
         }
-
 };
+
 
 // Mostra um usuário específico
 const show = async (req, res) => {
@@ -208,6 +210,8 @@ const update = async(req,res) => {
 
 };
 
+
+
 module.exports = {
     createAccount,
     emailSent,
@@ -218,6 +222,7 @@ module.exports = {
     index,
     show,
     destroy,
-    update
+    update,
+    addCommentProduct
     
 }
