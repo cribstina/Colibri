@@ -26,7 +26,7 @@ const User = sequelize.define('User', {
 
     CPF: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
 
     },
 
@@ -44,7 +44,7 @@ const User = sequelize.define('User', {
 
     address: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
 
     },
 
@@ -63,10 +63,11 @@ const User = sequelize.define('User', {
 });
 
 User.associate = function(models){
-     User.hasMany(models.Review, { });
      User.hasMany(models.Product);
+     User.hasMany(models.Comment)
      User.belongsToMany(models.Product, {through: 'listFavorite', as: 'listFavorited', foreignKey: 'userId'});
-
+     User.belongsToMany(models.Product, {through: 'cart', as: 'inCart', foreignKey: 'productId'});
+     
 }
 
 module.exports = User;

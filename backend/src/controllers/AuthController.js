@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const Product = require('../models/Product');
+const Comment = require('../models/Comment');
 const Auth = require("../config/auth");
 const UserController = require("./UserController");
 
@@ -17,7 +19,9 @@ const login = async(req, res)=>{
 	} catch (e) {
 		return res.status(500).json({err: e})
 	}
-}
+
+};
+
 const getDetails = async(req, res) => {
 	try {
 		const token = Auth.getToken(req);
@@ -29,9 +33,11 @@ const getDetails = async(req, res) => {
 	} catch (e) {
 		return res.status(500).json({err: e})
 	}
-}
+
+};
 
 module.exports = {
 	login,
 	getDetails
-}
+
+};

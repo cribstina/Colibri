@@ -3,23 +3,23 @@ const sequelize = require("../config/sequelize");
 
 const Product = sequelize.define('Product', {
     name: {
-        Type: DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false
 
     },
 
     weight: {
-        Type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
 
     description: {
-        Type: DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false
     },
 
     price: {
-        Type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     
@@ -31,7 +31,9 @@ const Product = sequelize.define('Product', {
 
 Product.associate = function(models){
     Product.belongsTo(models.User, { });
-    Product.hasMany(models.Comment);
+    Product.hasMany(models.Product);
+    Product.belongsToMany(models.User, {through: 'favoriteList', as: 'inList', foreignKey: 'userId'});
+    Product.belongsToMany(models.User, {through: 'cart', as: 'inCart', foreignKey: 'productId'});
 
 }
 
