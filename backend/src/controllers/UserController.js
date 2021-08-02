@@ -109,10 +109,9 @@ const addCommentProduct = async(req,res) => {
         const review = await Review.findByPk(req.body.reviewId);
         await user.setReview(review);
         return res.status(200).json(comment);
-    }catch(err){
+    } catch(err) {
         return res.status(500).json({err});
     }
-
 };
 
 const commentDelet = async(req,res) => {

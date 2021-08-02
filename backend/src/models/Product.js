@@ -8,7 +8,7 @@ const Product = sequelize.define('Product', {
 
     },
 
-    wight: {
+    weight: {
         Type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -31,7 +31,7 @@ const Product = sequelize.define('Product', {
 
 Product.associate = function(models){
     Product.belongsTo(models.User, { });
-    Product.hasMany(models.Review);
+    Product.hasMany(models.Comment);
 
 }
 
