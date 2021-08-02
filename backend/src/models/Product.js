@@ -14,12 +14,7 @@ const Product = sequelize.define('Product', {
     },
 
     description: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-
-    price: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     
@@ -31,7 +26,7 @@ const Product = sequelize.define('Product', {
 
 Product.associate = function(models){
     Product.belongsTo(models.User, { });
-    Product.hasMany(models.Product, { });
+    Product.hasMany(models.Comment, { });
     Product.belongsToMany(models.User, {through: 'favoriteList', as: 'inList', foreignKey: 'productId'});
     Product.belongsToMany(models.User, {through: 'cart', as: 'inCart', foreignKey: 'productId'});
 
