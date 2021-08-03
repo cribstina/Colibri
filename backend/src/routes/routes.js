@@ -49,11 +49,9 @@ router.delete('/deletecomment/:id',CommentController.deleteComment);
 router.get('/comments',CommentController.index);
 router.get('/comment/:id',CommentController.show);
 router.put('/comment/:id',CommentController.update);
-//ADMIN
-router.delete('/comment/:id',CommentController.adminCommentDestroy);
 
-//admin
-router.delete('/private/comment/:id', adminMiddleware, CommentController.adminDeleteComment);
+//ADMIN
+router.delete('/comment/:id', adminMiddleware, CommentController.adminCommentDestroy);
 
 
 

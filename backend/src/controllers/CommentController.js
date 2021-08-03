@@ -102,19 +102,7 @@ const update = async(req,res) => {
 
 }
 
-//ADMIN deleta comment do usuário (validação na rota)
-const adminDeleteComment = async(req,res) => {
-    const {id} = req.params;
-    try {
-        const deleted = await Comment.destroy({where: {id: id}});
-        if (deleted) {
-            return res.status(200).json("Comentário deletado com sucesso.")
-        }
-        throw new Error();
-    } catch (error) {
-        return res.status(500).json("Comentário não encontrado.")
-    }
-}
+
 
 
 module.exports = {
@@ -123,6 +111,5 @@ module.exports = {
     index, 
     show,
     update,
-    adminDeleteComment,
     adminCommentDestroy
 };
