@@ -71,7 +71,7 @@ const show = async(req,res) => {
 
 };
 
-// Deleta um perfil de usuário
+// Admin deleta um comentario de usuário
 const adminCommentDestroy = async (req, res) => {
     const {id} = req.params;
     try {

@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const UserController = require('../controllers/UserController');
 const AuthController = require('../controllers/AuthController');
+const ProductController = require('../controllers/ProductController')
 const CommentController = require('../controllers/CommentController');
 const adminMiddleware = require('../middlewares/admin');
 const path = require('path');
@@ -50,9 +51,21 @@ router.get('/comments',CommentController.index);
 router.get('/comment/:id',CommentController.show);
 router.put('/comment/:id',CommentController.update);
 
+//ProductController
+router.get('/products', ProductController.index);
+router.get('/products/:id', ProductController.show);
+router.get('/category', ProductController.byCategory);
+router.post('/addproduct', ProductController.create);
+router.put('/product/:id', ProductController.update);
+router.delete('/product/:id', ProductController.destroy);
+router.put('/cart/:id', ProductController.addToCart);
+router.delete('/cart/:id', ProductController.removeFromCart);
+router.put('/favorites/:id', ProductController.addToList);
+router.delete('/favorites/:id', ProductController.removeFromList)
+
 //ADMIN
 router.delete('/comment/:id', adminMiddleware, CommentController.adminCommentDestroy);
-
+router.delete('/product/:id', adminMiddleware, ProductController.adminProductDestroy);
 
 
 module.exports = router;
