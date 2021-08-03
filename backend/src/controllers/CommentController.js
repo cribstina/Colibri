@@ -27,12 +27,13 @@ const deleteComment = async(req,res) => {
     const {id} = req.params; 
     try {
             const token = Auth.getToken(req);
-            const payload = Auth.decodeJwt(token);
-            const deleted = await Comment.destroy(id);
+            const payload = Auth.decodeJwt(token);  
             const user = await User.findByPk(payload.sub);
-            const product = await Product.findByPk(id);
-            await product.removeComment(deleted);
+            // const product = await Product.findByPk(id);
+            // await product.removeComment(deleted);
+            return res.status(200).json(payload.sub);
             await user.removeComment(deleted);  
+            const deleted = await Comment.destroy(id);
             if(deleted){
                 return res.status(200).json("Comentário deletado com sucesso.");
             }
@@ -53,8 +54,6 @@ const index = async(req,res) => {
         }
 
 };
-
-
 
 // Mostra um comentário específico
 const show = async(req,res) => {

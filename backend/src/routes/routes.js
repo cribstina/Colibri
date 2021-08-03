@@ -28,14 +28,14 @@ router.use("/private", passport.authenticate('jwt', {session: false}));
 //UserController
 router.post('/users',UserController.createAccount);
 router.post('/useremail',UserController.emailSent);
-router.put('/updateprofile',UserController.updateProfile);
+router.put('/updateprofile/:id',UserController.updateProfile);
 router.get('/favlist/:id',UserController.showListFavUser);
 router.post('/private/picprofile/:id', upload.single('picpicture'),UserController.addPictureProfile);
 router.delete('/userphoto/:id',UserController.removePictureProfile);
 //
 router.get('/users',UserController.index);
 router.get('/user/:id',UserController.show);
-router.delete('/user/:id',UserController.deletProfile);
+router.delete('/user/:id',UserController.deleteProfile);
 router.put('/user/:id',UserController.update);
 
 //AuthController
