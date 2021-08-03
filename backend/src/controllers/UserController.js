@@ -123,22 +123,6 @@ const addPictureProfile = async (req,res) => {
 
 };
 
-// Usuário remove sua foto de perfil
-const removePictureProfile = async(req, res) => {
-    try {
-		    const token = Auth.getToken(req);
-            const payload = Auth.decodeJwt(token);
-		    const picture  = await User.findByPk(payload.sub);
-		    const pathDb = picture.path.split("/").slice(-1)[0];
-		    await fsPromise.unlink(path.join(__dirname, "..", "..", "uploads", pathDb));
-		    await picture.destroy();
-		    return res.status(200).json("Foto deletada com sucesso");
-	    } catch (e) {
-		    return res.status(500).json(e + "!");
-	    }
-};
-
-
 // Mostra todos os usuários
 const index = async (req, res) => {
     try {
@@ -204,7 +188,6 @@ module.exports = {
     updateProfile,
     showListFavUser,
     addPictureProfile,
-    removePictureProfile,
     index,
     show,
     deleteProfile,

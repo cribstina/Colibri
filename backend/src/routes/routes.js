@@ -31,7 +31,6 @@ router.post('/useremail',UserController.emailSent);
 router.put('/updateprofile/:id',UserController.updateProfile);
 router.get('/favlist/:id',UserController.showListFavUser);
 router.post('/private/picprofile/:id', upload.single('picpicture'),UserController.addPictureProfile);
-router.delete('/userphoto/:id',UserController.removePictureProfile);
 //
 router.get('/users',UserController.index);
 router.get('/user/:id',UserController.show);
@@ -45,7 +44,7 @@ router.post('/login',AuthController.login);
 //CommentController
 // Usuário
 router.post('/addcomment/:id',CommentController.createComment);
-router.delete('/deletcomment/:id',CommentController.deleteComment);
+router.delete('/deletecomment/:id',CommentController.deleteComment);
 //
 router.get('/comments',CommentController.index);
 router.get('/comment/:id',CommentController.show);
