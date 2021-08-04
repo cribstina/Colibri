@@ -5,18 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useFonts} from 'expo-font';
 
+import { IoList, IoHomeOutline, IoPricetagOutline, IoHeartOutline, IoBagOutline, IoSearchOutline, IoReorderThreeOutline, IoGiftOutline, IoPersonSharp } from 'react-icons/io5';
 
-import { IoList } from 'react-icons/io5';
-import { IoHomeOutline } from 'react-icons/io5';
-import { IoPricetagOutline } from 'react-icons/io5';
-import { IoHeartOutline } from 'react-icons/io5';
-import { IoBagOutline } from 'react-icons/io5';
-import { IoSearchOutline } from 'react-icons/io5';
-import { IoReorderThreeOutline } from 'react-icons/io5';
-import { IoGiftOutline } from 'react-icons/io5';
+import { Button } from 'react-native-paper';
 
-
-
+import Login_Register from './src/MenuTabs/Profile/Login_Register';
 
 
 import Home from './src/Screens/Home';
@@ -81,6 +74,10 @@ function MenuDrawer() {
             options={{drawerIcon: ({color, size}) =>
             (<IoGiftOutline color={color} size={size} />)
             }} /> 
+            <Drawer.Screen name="Login" component={Login_Register}
+            options={{drawerIcon: ({color, size}) =>
+            (<IoPersonSharp color={color} size={size} />)
+            }} /> 
         </Drawer.Navigator>
     )
 }
@@ -95,7 +92,15 @@ export default function app() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-               <Stack.Screen name="Menu" component={MenuDrawer} options={{headerShown: false}} />
+               <Stack.Screen 
+                name="Menu" 
+                component={MenuDrawer} 
+                options={{headerShown: false, headerRight: () => (
+
+                  <Button 
+                   />
+
+                )}} />
             </Stack.Navigator>
         </NavigationContainer>
 
