@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useFonts} from 'expo-font';
 
 
 import { IoList } from 'react-icons/io5';
@@ -85,12 +86,19 @@ function MenuDrawer() {
 }
 
 export default function app() {
+
+    const [ loaded ] = useFonts({
+        Montserrat: require('./assets/assetsFonts/Montserrat (1).zip'),
+    })
+
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
                <Stack.Screen name="Menu" component={MenuDrawer} options={{headerShown: false}} />
             </Stack.Navigator>
         </NavigationContainer>
+
 
     );
 }
