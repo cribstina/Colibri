@@ -55,8 +55,13 @@ function HomeTabs() {
 
 function MenuDrawer() {
     return (
-        <Drawer.Navigator screenOptions={{headerShown: true, headerStyle: {backgroundColor: "#06DAB5"
-        }, headerTintColor: '#fff',}}>
+        <Drawer.Navigator screenOptions={({ navigation }) => ({headerShown: true, headerStyle:      {backgroundColor: "#06DAB5"
+        }, headerTintColor: '#fff', headerRight: () => (
+        <Button
+        labelStyle={{ fontSize: 25 }}
+        color="white"
+        icon="cogs"/>
+        )})}>
             <Drawer.Screen name="Home" component={HomeTabs} 
             options={{drawerIcon: ({color, size}) =>
             (<IoHomeOutline color={color} size={size} />)
@@ -111,8 +116,6 @@ export default function app() {
                 )}} />
             </Stack.Navigator>
         </NavigationContainer>
-
-
     );
 }
 

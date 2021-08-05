@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-//import { widthPercentageToDP  as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP  as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const MainView = styled.View `
     display: flex;
@@ -37,11 +37,12 @@ export const OptionView = styled.View `
 `
 
 export const RoleText = styled.Text `
-    padding: 4px;
-    background-color: #236D71;
+    padding: 2px;
+    background-color: grey;
     border-radius: 16px;
     color: white;
     text-align: center;
     font-weight: 600;
     margin-top: 12px;
+    width: ${wp('70%')};
 `
