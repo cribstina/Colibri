@@ -12,8 +12,8 @@ const createComment = async(req,res) => {
             const payload = Auth.decodeJwt(token);        
             const commentProduct = await Comment.create(req.body);
             const user = await User.findByPk(payload.sub);
-            const product = await Product.findByPk(id);
-            await product.addComment(commentProduct);
+            // const product = await Product.findByPk(id);
+            // await product.addComment(commentProduct);
             await user.addComment(commentProduct);
             return res.status(200).json("Comentário adicionado com sucesso!.");
         }catch(err){
@@ -27,18 +27,23 @@ const deleteComment = async(req,res) => {
     const {id} = req.params; 
     try {
             const token = Auth.getToken(req);
-            const payload = Auth.decodeJwt(token);
-            const deleted = await Comment.destroy(id);
-            const user = await User.findByPk(payload.sub);
-            const product = await Product.findByPk(id);
-            await product.removeComment(deleted);
-            await user.removeComment(deleted);  
-            if(deleted){
-                return res.status(200).json("Comentário deletado com sucesso.");
+            const payload = Auth.decodeJwt(token);  
+            const authUser = await User.findByPk(payload.sub);
+            const commentDeleted = await Comment.findByPk(id, {
+                include: 'commentUser'
+            });  
+            const user = await User.findByPk(commentDeleted.UserId);
+            if(user.equals(authUser)){
+                const deleted = await Comment.destroy({where: {id: id}});
+                if(deleted){
+                    return res.status(200).json("Comentário deletado com sucesso.");
+                }
+            }else{
+                    return res.status(500).json("Você não está autorizado a esse comando.");
             }
             throw new Error ();
         }catch(error){
-            return res.status(500).json("Comentário não foi encontrado.");
+            return res.status(500).json();
         }
 
 };
@@ -53,8 +58,6 @@ const index = async(req,res) => {
         }
 
 };
-
-
 
 // Mostra um comentário específico
 const show = async(req,res) => {
