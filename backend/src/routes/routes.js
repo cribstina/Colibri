@@ -35,7 +35,7 @@ router.delete('/userphoto/:id',UserController.removePictureProfile);
 //
 router.get('/users',UserController.index);
 router.get('/user/:id',UserController.show);
-router.delete('/user/:id',UserController.deletProfile);
+//router.delete('/user/:id',UserController.deletProfile);
 router.put('/user/:id',UserController.update);
 
 //AuthController

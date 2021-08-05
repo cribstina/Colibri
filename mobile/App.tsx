@@ -7,6 +7,8 @@ import { useFonts} from 'expo-font';
 
 import { IoList, IoHomeOutline, IoPricetagOutline, IoHeartOutline, IoBagOutline, IoSearchOutline, IoReorderThreeOutline, IoGiftOutline, IoPersonSharp } from 'react-icons/io5';
 
+import { BsFillPersonCheckFill } from 'react-icons/bs';
+
 import { Button } from 'react-native-paper';
 
 import Login_Register from './src/MenuTabs/Profile/Login_Register';
@@ -19,6 +21,7 @@ import Pedidos from './src/Screens/pedidos';
 import Ofertas from './src/Screens/Ofertas';
 import Categorias from './src/Screens/Categorias';
 import Presentes from './src/Screens/Presente';
+import Perfil from './src/Screens/Perfil';
 
 
 const Stack = createStackNavigator();
@@ -58,6 +61,10 @@ function MenuDrawer() {
             options={{drawerIcon: ({color, size}) =>
             (<IoHomeOutline color={color} size={size} />)
             }} /> 
+            <Drawer.Screen name="Perfil" component={Perfil} 
+            options={{drawerIcon: ({color, size}) =>
+            (<BsFillPersonCheckFill color={color} size={size} />)
+            }} /> 
             <Drawer.Screen name="Buscar" component={Pesquisa}
             options={{drawerIcon: ({color, size})=>
             (<IoSearchOutline color={color} size={size} />)
@@ -78,6 +85,7 @@ function MenuDrawer() {
             options={{drawerIcon: ({color, size}) =>
             (<IoPersonSharp color={color} size={size} />)
             }} /> 
+            
         </Drawer.Navigator>
     )
 }
