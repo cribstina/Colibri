@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useFonts } from "expo-font";
 
-import { IoList } from "react-icons/io5";
+import { IoHeart, IoList } from "react-icons/io5";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoPricetagOutline } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
@@ -73,6 +73,8 @@ function HomeStack() {
     <Stack2.Navigator screenOptions={{ headerShown: false }}>
       <Stack2.Screen name="Home" component={Home} />
       <Stack2.Screen name="Produtos" component={Produtos} />
+      <Stack2.Screen name="Favoritos" component={Favoritos} />
+      <Stack2.Screen name="Ofertas" component={Ofertas} />
     </Stack2.Navigator>
   );
 }
@@ -96,11 +98,11 @@ function MenuDrawer() {
         }}
       />
       <Drawer.Screen
-        name="Buscar"
-        component={Pesquisa}
+        name="Favoritos"
+        component={Favoritos}
         options={{
           drawerIcon: ({ color, size }) => (
-            <IoSearchOutline color={color} size={size} />
+            <IoHeartOutline color={color} size={size} />
           ),
         }}
       />

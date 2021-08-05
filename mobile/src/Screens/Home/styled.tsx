@@ -3,6 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { color } from "react-native-reanimated";
 
 export const ScrollView = styled.ScrollView`
   height: 30%;
@@ -12,6 +13,10 @@ export const ScrollView = styled.ScrollView`
   justify-content: center;
 `;
 
+export const BackgroundApp = styled.View `
+background-color: #fff;
+`
+
 export const Anuncio = styled.Image`
   width: 100%;
   height: 40%;
@@ -19,9 +24,10 @@ export const Anuncio = styled.Image`
 `;
 
 export const ImageProduto = styled.Image`
-  width: 50;
+  width: 60;
   height: 50;
 `;
+
 
 export const Title = styled.Text`
   font-weight: bold;
@@ -40,12 +46,24 @@ export const Subtitle = styled.Text`
   margin-left: 2%;
   align-items: left;
 `;
-export const ProdutoButton = styled.TouchableOpacity`
-  width: ${wp("30%")};
-  height: ${wp("30%")};
-  padding: 2%;
-  background-color: #fff;
-  opacity: 0.7;
-  margin-top: 5%;
-  margin-left: 1%;
+
+export const Price = styled.Text`
+  font-weight: bold;
+  color: #D94207;
+  font-size: 11px;
+  margin-top: 10%;
+  font-family: montserrat;
+  margin-left: 2%;
+  align-items: left;
 `;
+
+
+
+export const ProdutoButton = styled.TouchableOpacity`
+  width: ${wp("35%")};
+  height: ${wp("45%")};
+  padding: 1%;
+  background-color: #fff;
+  opacity: 1;
+  margin-top: 1%;
+`
