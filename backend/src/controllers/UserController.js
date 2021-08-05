@@ -22,8 +22,8 @@ const createAccount = async (req,res) => {
                 CPF: req.body.cpf,
                 gender: req.body.gender,
                 birthdate: req.body.birthdate,
-                address: req.body.gender,
-                profile_picture: req.body,
+                address: req.body.address,
+                profilePicture: req.body.profilePicture,
                 role: req.body.role,
                 hash: hash,
                 salt: salt
@@ -103,9 +103,9 @@ const showListFavUser = async (req,res) => {
 
 // Usuário adiciona uma foto no perfil
 const addPictureProfile = async (req,res) => {
-    try {
+    try {   
             const token = Auth.getToken(req);
-            const payload = Auth.decodeJwt(token);
+            const payload = Auth.decodeJwt(token); 
             if (req.file) {
                 const path = process.env.APP_URL + "/uploads/" + req.file.filename;
                 const atributes = {
@@ -120,23 +120,8 @@ const addPictureProfile = async (req,res) => {
         }catch(err) {
             return res.status(500).json(err + "!");
         }
-};
 
-// Usuário remove sua foto de perfil
-const removePictureProfile = async(req, res) => {
-    try {
-		    const token = Auth.getToken(req);
-            const payload = Auth.decodeJwt(token);
-		    const picture  = await User.findByPk(payload.sub);
-		    const pathDb = picture.path.split("/").slice(-1)[0];
-		    await fsPromise.unlink(path.join(__dirname, "..", "..", "uploads", pathDb));
-		    await picture.destroy();
-		    return res.status(200).json("Foto deletada com sucesso");
-	    } catch (e) {
-		    return res.status(500).json(e + "!");
-	    }
 };
-
 
 // Mostra todos os usuários
 const index = async (req, res) => {
@@ -161,21 +146,8 @@ const show = async (req, res) => {
 
 };
 
-// Adição de um comentário a um produto pelo usuário
-const addCommentProduct = async(req,res) => {
-    try{
-        const comment = await User.findByPk(id);
-        const review = await Review.findByPk(req.body.reviewId);
-        await user.setReview(review);
-        return res.status(200).json(comment);
-    } catch(err) {
-        return res.status(500).json({err});
-    }
-
-};
-
-// Deleta um perfil de usuário
-const destroy = async (req, res) => {
+// Usuário deleta o próprio perfil
+const deleteProfile = async (req, res) => {
     const {id} = req.params;
     try {
             const token = Auth.getToken(req);
@@ -216,11 +188,9 @@ module.exports = {
     updateProfile,
     showListFavUser,
     addPictureProfile,
-    removePictureProfile,
     index,
     show,
-    destroy,
-    update,
-    addCommentProduct
+    deleteProfile,
+    update
     
 }

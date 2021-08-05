@@ -32,13 +32,13 @@ export default function UserProfile() {
 
   }, []);
 
-  const getUserInfo = () => {
+  /*const getUserInfo = () => {
     try {
       axios.
     } catch (error) {
       throw error;
     }
-  }
+  }*/
 
   return (
     <MainView>
