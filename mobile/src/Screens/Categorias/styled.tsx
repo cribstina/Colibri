@@ -6,7 +6,7 @@ import { widthPercentageToDP  as wp, heightPercentageToDP as hp} from 'react-nat
 export const BackgroundApp = styled.View `
     background-color: #F5FFFD;
     width: ${wp('100%')};
-    height: ${wp('1000%')};
+    height: ${wp('180%')};
 `
 
 export const Title = styled.Text `
@@ -23,6 +23,7 @@ export const TextList = styled.Text `
     color: #000;
     font-size: 14px;
     margin-left:7%;
+    font-family: montserrat;
 `
 
 export const CategoriasButton = styled.TouchableOpacity `
