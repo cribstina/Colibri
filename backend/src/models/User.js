@@ -26,19 +26,19 @@ const User = sequelize.define('User', {
 
     CPF: {
         type: DataTypes.STRING,
-        //allowNull: false
+        allowNull: true
 
     },
 
     gender: {
          type: DataTypes.STRING,
-         //allowNull: false
+         allowNull: true
 
     },
 
     birthdate: {
         type: DataTypes.DATEONLY,
-        //allowNull: false
+        allowNull: true
 
     },
 
