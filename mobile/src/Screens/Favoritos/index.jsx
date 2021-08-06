@@ -3,21 +3,15 @@ import { View, Text, Image, ScrollView } from "react-native";
 import { BackgroundApp } from "../Home/styled";
 import { Title, Line, SubTitle, ProductImage, Price } from "./styled";
 import { Button } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Favoritos() {
+  const navigation = useNavigation();
   return (
     <ScrollView>
       <BackgroundApp>
         <View style={{ flex: 1 }}>
-          <Button
-            icon="arrow-left"
-            labelStyle={{ fontSize: 20 }}
-            color="#5B5A5A"
-            style={{ alignSelf: "flex-start", marginTop: 20 }}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          ></Button>
+  
           <Title>Favoritos</Title>
 
           <View

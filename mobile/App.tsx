@@ -124,7 +124,7 @@ function MenuDrawer() {
       />
       <Drawer.Screen
         name="Dicas de presentes"
-        component={Ofertas}
+        component={Presentes}
         options={{
           drawerIcon: ({ color, size }) => (
             <IoGiftOutline color={color} size={size} />

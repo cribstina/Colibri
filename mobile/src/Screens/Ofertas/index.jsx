@@ -9,15 +9,7 @@ export default function Ofertas() {
     <ScrollView>
       <BackgroundApp>
         <View style={{ flex: 1 }}>
-          <Button
-            icon="arrow-left"
-            labelStyle={{ fontSize: 20 }}
-            color="#5B5A5A"
-            style={{ alignSelf: "flex-start", marginTop: 20 }}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          ></Button>
+          
           <Title>Ofertas do dia</Title>
 
           <View
