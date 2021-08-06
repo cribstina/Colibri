@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -19,6 +19,7 @@ import Pedidos from './src/Screens/pedidos';
 import Ofertas from './src/Screens/Ofertas';
 import Categorias from './src/Screens/Categorias';
 import Presentes from './src/Screens/Presente';
+import Cart from './src/Screens/Carrinho';
 
 
 const Stack = createStackNavigator();
@@ -52,8 +53,14 @@ function HomeTabs() {
 
 function MenuDrawer() {
     return (
-        <Drawer.Navigator screenOptions={{headerShown: true, headerStyle: {backgroundColor: "#06DAB5"
-        }, headerTintColor: '#fff',}}>
+        <Drawer.Navigator screenOptions={({ navigation }) => ({headerShown: true, headerStyle: {backgroundColor: "#06DAB5"
+      }, headerTintColor: '#fff', headerRight: () => (
+        <Button
+        labelStyle={{ fontSize: 25 }}
+        color="white"
+        icon="cart-outline"
+        onPress={() => navigation.navigate('Cart')} />
+      )})}>
             <Drawer.Screen name="Home" component={HomeTabs} 
             options={{drawerIcon: ({color, size}) =>
             (<IoHomeOutline color={color} size={size} />)
@@ -95,12 +102,11 @@ export default function app() {
                <Stack.Screen 
                 name="Menu" 
                 component={MenuDrawer} 
-                options={{headerShown: false, headerRight: () => (
-
-                  <Button 
-                   />
-
-                )}} />
+                options={{headerShown: false}}/>
+                <Stack.Screen 
+                name="Cart"
+                component={Cart} 
+                options={{headerShown: true, headerStyle: {backgroundColor: "#06DAB5"}, headerTintColor: 'white', headerTitle: 'Carrinho' }}/>
             </Stack.Navigator>
         </NavigationContainer>
 
