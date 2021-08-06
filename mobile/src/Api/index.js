@@ -1,0 +1,12 @@
+import axios from 'axios';
+
+const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTYyODEyNDYwNjQ0NCwiZXhwIjoxNjI4MTI1MjExMjQ0fQ.tagWJGZLDbFTPXoIL79MxZrNabgUNvOSTXREGKo3wtMg8UZY21zejMkSJNpilSRLRSPx4IJjDPPWiuQNXjYlL6naHKWVaZ5yY3wFdC-yMLQzceNsivZ4BM_xb7pffhAxAtBCRd1dr9AVn60zF2GK1Bdc5Egp7OZne1fMkwXCMo-rT-bw5lTvhwNIKHNgS8TPShNnCX7S4NkQ-T1gwgQWH3bZkEu5_hKDlMHY7ytif_wWkXwuvSFN0wWsadtURy2DkE5Ek9DjaH75TPitYekAv3CG-YCA0o85Qe31pLSme6wMItmSB8Mhhm2LsPccCgcbEcLPNc_YHbT9tDUjGI5NkRKwE-nyz5M5GMkZPzITa8mMkEPe-FMhfpf-GAPxjsqCW19lHBuzUd73czcSqcH7bysXPYyXWPfXrrdRDIUd4begwAz7VGkQx9kUaRWJ5B8kvYvFwZk8j7yxVnBVnnpMdWCK3Xkpi7l_dFIefzxji37BB1HmOWFN5pqmsw-eupi_YZcl_PFeaJWahhZxuw8jqrkwTF8TBFpErTBldzgmG0ghOA4EmEwT5HcgK7c4goHFQdhohCE4X6dw1q-xDMdxJ941b7JAZ3NMs2ruNHUZc8TqkH9OPqEIOkVk5fMDZ5NGWWZsMXOgPSUXpjValf_E_8dSkF99mjVF3CFwzOzkT0s";
+
+//Token mockado, remover depois
+
+const api = axios.create({
+    baseURL: 'http://localhost:3333',
+    headers: { Authorization: `Bearer ` + token }
+});
+
+export default api;
